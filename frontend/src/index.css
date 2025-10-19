@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+html {
+  @apply bg-black text-center text-gray-100;
+}
+
+@theme {
+  --font-cherry: "Cherry Bomb One", cursive;
+}
+
+@layer components {
+  div {
+    @apply flex gap-3;
+  }
+
+  form {
+    @apply flex flex-col gap-10 min-w-xs max-w-lg;
+  }
+
+  input,
+  textarea {
+    @apply border-b-1 border-gray-500 focus:outline-0 focus:border-lime-700 focus:border-b-2;
+  }
+
+  button {
+    @apply hover:cursor-pointer;
+  }
+}
+
+@layer utilities {
+  .cherry-btn {
+    @apply font-cherry text-xl rounded-[8px] tracking-wide p-1.5 bg-[#8eb69a] hover:bg-lime-700 text-white;
+  }
+
+  .item-btn {
+    @apply text-left pl-4 pr-4 pt-2 pb-2 hover:bg-[#798875];
+  }
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
