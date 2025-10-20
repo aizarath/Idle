@@ -20,14 +20,14 @@ A real-time chat application with rooms, built for seamless communication and co
 ## Tech Stack
 
 ### Frontend
-- **React** (Vite)
+- **ReactJS** (Vite)
 - **Tailwind CSS v4**
 - **Socket.io Client**
 - **Lucide React**
 
 ### Backend
 - **Node.js**
-- **Express**=
+- **Express**
 - **Socket.io**
 - **PostgreSQL**
 
@@ -60,3 +60,4 @@ Built as a portfolio project to demonstrate:
 ---
 
 **Planned Timeline**: Week-long sprint project
+**Start Date:** October 18, 2025
