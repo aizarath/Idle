@@ -9,7 +9,9 @@ export const ChatHeader = ({ roomName, roomIcon }) => {
         <h4>{roomName}</h4>
       </div>
       <div>
-        <StickyNote />
+        <button>
+          <StickyNote />
+        </button>
       </div>
     </header>
   );

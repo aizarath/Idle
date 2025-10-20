@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LogIn } from "./Login";
+import { LogIn } from "./LogIn";
 import { SignUp } from "./SignUp";
 import bgWall from "../../assets/StarryNightGreen.jpg";
 
