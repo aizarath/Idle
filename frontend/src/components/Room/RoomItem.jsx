@@ -2,8 +2,6 @@ import React from "react";
 import { Shell } from "lucide-react";
 
 export const RoomItem = ({ room, isActive, onClick }) => {
-  console.log(room.name + " is " + (isActive === true ? "active" : "inactive"));
-
   return (
     <button
       onClick={onClick}

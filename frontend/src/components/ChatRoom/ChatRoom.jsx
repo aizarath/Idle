@@ -9,7 +9,7 @@ export const ChatRoom = () => {
 
   return (
     <>
-      <div className="w-screen h-screen">
+      <div className="w-screen h-screen gap-0">
         <section className="bg-gray-950 flex flex-col gap-4 shrink-0 w-64">
           <h1 className="font-cherry text-6xl p-4">IDLE</h1>
           <button className="item-btn" onClick={() => setShowRoomModal(true)}>

@@ -9,6 +9,10 @@ html {
 }
 
 @layer components {
+  h5 {
+    @apply text-sm font-semibold;
+  }
+
   div {
     @apply flex gap-3;
   }
@@ -17,8 +21,7 @@ html {
     @apply flex flex-col gap-10 min-w-xs max-w-lg;
   }
 
-  input,
-  textarea {
+  input {
     @apply border-b-1 border-gray-500 focus:outline-0 focus:border-lime-700 focus:border-b-2;
   }
 
@@ -34,6 +37,10 @@ html {
 
   .item-btn {
     @apply text-left pl-4 pr-4 pt-2 pb-2 hover:bg-[#798875];
+  }
+
+  .input-div {
+    @apply focus:outline-0 focus:border-0 text-left cursor-text;
   }
 }
 
