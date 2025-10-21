@@ -12,7 +12,7 @@ export const RoomItem = ({ room, isActive, onClick }) => {
       {room.icon ? (
         room.icon
       ) : (
-        <Shell className="w-10 h-10 rotate-130 scale-x-[-1]" />
+        <Shell className="pfp rotate-130 scale-x-[-1]" />
       )}{" "}
       {room.name}
     </button>

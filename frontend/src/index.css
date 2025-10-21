@@ -31,6 +31,10 @@ html {
 }
 
 @layer utilities {
+  .pfp {
+    @apply w-8 h-8;
+  }
+
   .cherry-btn {
     @apply font-cherry text-xl rounded-[8px] tracking-wide p-1.5 bg-[#8eb69a] hover:bg-lime-700 text-white;
   }

@@ -1,5 +1,5 @@
 import React from "react";
-import { CircleUser } from "lucide-react";
+import { Snail } from "lucide-react";
 
 export const MessageItem = ({ message, isOwn }) => {
   return (
@@ -10,7 +10,7 @@ export const MessageItem = ({ message, isOwn }) => {
           : "flex-row-reverse text-right"
       }`}
     >
-      <CircleUser />
+      <Snail className="pfp" />
       <section>
         <h5>{message.username}</h5>
         <article>{message.content}</article>
