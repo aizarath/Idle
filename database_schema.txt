@@ -1,0 +1,47 @@
+CREATE TABLE users
+(
+    id INTEGER PRIMARY KEY GENERATED ALWAYS
+    AS IDENTITY,
+    username VARCHAR
+    (15) UNIQUE NOT NULL,
+    display_name VARCHAR
+    (50) NOT NULL,
+    email VARCHAR
+    (100),
+    password_hash TEXT NOT NULL,
+    avatar_url TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+    CREATE TABLE rooms
+    (
+        id INTEGER PRIMARY KEY GENERATED ALWAYS
+        AS IDENTITY,
+    name TEXT NOT NULL,
+    description TEXT,
+    master_id INTEGER REFERENCES users(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+        CREATE TABLE messages
+        (
+            id BIGINT PRIMARY KEY GENERATED ALWAYS
+            AS IDENTITY,
+    room_id INTEGER REFERENCES rooms
+            (id) ON
+            DELETE CASCADE,
+    user_id INTEGER REFERENCES users(id),
+    context TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE room_members
+(
+    room_id INTEGER REFERENCES rooms(id) ON DELETE CASCADE,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+joined_at TIMESTAMP
+    DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY
+    (room_id, user_id)
+)
+

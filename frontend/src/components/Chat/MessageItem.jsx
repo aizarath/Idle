@@ -10,7 +10,9 @@ export const MessageItem = ({ message, isOwn }) => {
           : "flex-row-reverse text-right"
       }`}
     >
-      <Snail className="pfp" />
+      <Snail
+        className={`${isOwn === false ? "rotate-0" : "scale-x-[-1]"} pfp`}
+      />
       <section>
         <h5>{message.username}</h5>
         <article>{message.content}</article>
