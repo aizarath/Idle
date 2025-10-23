@@ -1,0 +1,95 @@
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import pool from "../config/database";
+
+const JWT_SECRET = process.env.JWT_SECRET;
+
+export const register = async (req, res) => {
+  try {
+    const { username, displayName, email, password, avatar_url } = req.body;
+
+    // Validation
+    if (!username || !displayName || !email || !password) {
+      return res.status(400).json({ error: "Complete the necessary fields" });
+    }
+
+    // Check if user already exists
+    const userExists = await pool.query(
+      "SELECT * FROM users WHERE email = $2",
+      [email]
+    );
+
+    if (userExists.rows.length > 0) {
+      return res.status(400).json({ error: "Email already exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create user
+    const result = await pool.query(
+      "INSERT INTO users(username, display_name, email, password_hash, avatar_url) VALUES ($1, $2, $3, $4, $5) RETURNING id, username, display_name, email, created_at",
+      [username, displayName, email, hashedPassword, avatar_url]
+    );
+
+    const user = result.rows[0];
+
+    // Generate token
+    const token = jwt.sign(
+      { id: user.id, username: user.username, displayName: user.displayName },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+  } catch (error) {
+    console.error("Error registering: ", error);
+    res.statu(500).json({ error: "Server error during registration" });
+  }
+};
+
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ error: "Email and password are required." });
+    }
+
+    const result = await pool.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
+
+    const user = result.rows[0];
+
+    if (!user) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    // Verify password
+    const validPassword = await bcrypt.compare(password, user.password_hash);
+
+    if (!validPassword) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    // Generate token
+    const token = jwt.sign(
+      { id: user.id, username: user.username, displayName: user.displayName },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.json({
+      message: "Login successful",
+      token,
+      user: {
+        id: user.id,
+        username: user.username,
+        displayName: user.display_name,
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ error: "Server error during login" });
+  }
+};
