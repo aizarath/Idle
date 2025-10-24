@@ -6,6 +6,6 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   preview: {
-    allowedHosts: [import.meta.env.VITE_API_URL, "*.onrender.com"],
+    allowedHosts: ["https://idle-32do.onrender.com", "*.onrender.com"],
   },
 });
