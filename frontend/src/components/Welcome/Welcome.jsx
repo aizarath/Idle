@@ -3,8 +3,12 @@ import { LogIn } from "./LogIn";
 import { SignUp } from "./SignUp";
 import bgWall from "../../assets/StarryNightGreen.jpg";
 
-export const Welcome = () => {
-  const [showLogin, setShowLogin] = useState(true);
+export const Welcome = ({ onAuthSuccess }) => {
+  const [showLogIn, setShowLogIn] = useState(true);
+
+  const handleAuthSuccess = (user) => {
+    onAuthSuccess(user);
+  };
 
   return (
     <div className="w-screen h-screen justify-center items-center bg-gray-900">
@@ -16,12 +20,12 @@ export const Welcome = () => {
           <h1 className="font-cherry text-7xl leading-20">
             Welcome to <span>IDLE</span>
           </h1>
-          {showLogin ? (
+          {showLogIn ? (
             <div className="flex-col">
-              <LogIn />
+              <LogIn onLogInSuccess={handleAuthSuccess} />
               <section className="flex justify-between">
                 <button
-                  onClick={() => setShowLogin(false)}
+                  onClick={() => setShowLogIn(false)}
                   className="text-gray-500 underline text-sm"
                 >
                   Create an account
@@ -33,10 +37,10 @@ export const Welcome = () => {
             </div>
           ) : (
             <div className="flex-col">
-              <SignUp />
+              <SignUp onSignUpSuccess={handleAuthSuccess} />
               <section className="flex justify-between">
                 <button
-                  onClick={() => setShowLogin(true)}
+                  onClick={() => setShowLogIn(true)}
                   className="text-gray-500 underline text-sm"
                 >
                   Already have an account? Login

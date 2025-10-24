@@ -6,10 +6,10 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 export const register = async (req, res) => {
   try {
-    const { username, displayName, email, password, avatar_url } = req.body;
+    const { username, email, password } = req.body;
 
     // Validation
-    if (!username || !displayName || !email || !password) {
+    if (!username || !email || !password) {
       return res.status(400).json({ error: "Complete the necessary fields" });
     }
 
@@ -27,15 +27,15 @@ export const register = async (req, res) => {
 
     // Create user
     const result = await pool.query(
-      "INSERT INTO users(username, display_name, email, password_hash, avatar_url) VALUES ($1, $2, $3, $4, $5) RETURNING id, username, display_name, email, created_at",
-      [username, displayName, email, hashedPassword, avatar_url]
+      "INSERT INTO users(username, email, password_hash) VALUES ($1, $2, $3) RETURNING id, username, email, created_at",
+      [username, email, hashedPassword]
     );
 
     const user = result.rows[0];
 
     // Generate token
     const token = jwt.sign(
-      { id: user.id, username: user.username, displayName: user.displayName },
+      { id: user.id, username: user.username },
       JWT_SECRET,
       { expiresIn: "7d" }
     );
@@ -73,7 +73,7 @@ export const login = async (req, res) => {
 
     // Generate token
     const token = jwt.sign(
-      { id: user.id, username: user.username, displayName: user.displayName },
+      { id: user.id, username: user.username },
       JWT_SECRET,
       { expiresIn: "7d" }
     );
@@ -84,7 +84,6 @@ export const login = async (req, res) => {
       user: {
         id: user.id,
         username: user.username,
-        displayName: user.display_name,
         email: user.email,
       },
     });
