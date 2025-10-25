@@ -6,7 +6,9 @@ import "dotenv/config";
 
 import "./config/database.js";
 
-import { login, register } from "./controllers/authController.js";
+import { authenticateToken } from "./middleware/authenticate.js";
+import auth from "./routes/auth.js";
+import rooms from "./routes/rooms.js";
 
 const app = express();
 const server = createServer(app);
@@ -28,9 +30,11 @@ app.use(express.json());
 // ROUTES
 // AUTH ROUTES
 
-app.post("/api/auth/register", register);
-console.log("BACKEND REACHED");
-app.post("/api/auth/login", login);
+app.use("/api/auth", auth);
+
+// ROOM ROUTES
+
+app.use("/api/rooms", authenticateToken, rooms);
 
 server.listen(PORT, () => {
   console.log(`IDLE Server running on port ${PORT}`);

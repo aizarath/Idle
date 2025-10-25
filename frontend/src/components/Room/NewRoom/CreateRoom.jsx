@@ -33,6 +33,7 @@ export const CreateRoom = () => {
         value={formData.roomName}
         onChange={handleChange}
         placeholder="Room Name"
+        required
       />
       <textarea
         name="description"

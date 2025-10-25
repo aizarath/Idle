@@ -4,8 +4,9 @@ import sql from "../config/database.js";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
+// @desc register a new user
+// @route POST /api/auth/register
 export const register = async (req, res) => {
-  console.log("Register reached");
   try {
     const { username, email, password } = req.body;
 
@@ -28,7 +29,6 @@ export const register = async (req, res) => {
       await sql`INSERT INTO users(username, email, password_hash) VALUES (${username}, ${email}, ${hashedPassword}) RETURNING id, username, email`;
 
     const user = result[0];
-    console.log("New user: ", user);
 
     // Generate token
     const token = jwt.sign(
@@ -52,8 +52,9 @@ export const register = async (req, res) => {
   }
 };
 
+// @desc login user
+// @route POST /api/auth/login
 export const login = async (req, res) => {
-  console.log("Login reached");
   try {
     const { email, password } = req.body;
     if (!email || !password) {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { RoomItem } from "./RoomItem";
+import { roomsAPI } from "../../services/api";
 
 const sampleRooms = [
   {
@@ -26,7 +27,16 @@ export const RoomList = ({ currentRoomId, onRoomSelect }) => {
   const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
-    setRooms(sampleRooms);
+    const fetchRooms = async () => {
+      try {
+        const data = await roomsAPI.getUserRooms();
+        setRooms(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchRooms();
   }, []);
 
   return (

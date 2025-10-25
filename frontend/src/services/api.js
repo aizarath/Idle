@@ -2,7 +2,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 // Function to handle fetch requests
 const fetchAPI = async (endpoint, options = {}) => {
-  const token = localStorage.getItem("token");
+  const token = JSON.parse(localStorage.getItem("token"));
 
   const config = {
     headers: {
@@ -39,7 +39,7 @@ export const authAPI = {
 
 // Room API calls
 export const roomsAPI = {
-  getAll: () => fetchAPI("/api/rooms"),
+  getUserRooms: () => fetchAPI("/api/rooms"),
   getMessages: (roomId) => fetchAPI(`/api/rooms/${roomId}/messages`),
   create: (data) =>
     fetchAPI("/api/rooms", {
