@@ -1,10 +1,11 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import pool from "../config/database.js";
+import sql from "../config/database.js";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
 export const register = async (req, res) => {
+  console.log("Register reached");
   try {
     const { username, email, password } = req.body;
 
@@ -14,24 +15,20 @@ export const register = async (req, res) => {
     }
 
     // Check if user already exists
-    const userExists = await pool.query(
-      "SELECT * FROM users WHERE email = $2",
-      [email]
-    );
+    const userExists = await sql`SELECT * FROM users WHERE email = ${email}`;
 
-    if (userExists.rows.length > 0) {
+    if (userExists.length > 0) {
       return res.status(400).json({ error: "Email already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create user
-    const result = await pool.query(
-      "INSERT INTO users(username, email, password_hash) VALUES ($1, $2, $3) RETURNING id, username, email, created_at",
-      [username, email, hashedPassword]
-    );
+    const result =
+      await sql`INSERT INTO users(username, email, password_hash) VALUES (${username}, ${email}, ${hashedPassword}) RETURNING id, username, email`;
 
-    const user = result.rows[0];
+    const user = result[0];
+    console.log("New user: ", user);
 
     // Generate token
     const token = jwt.sign(
@@ -39,13 +36,24 @@ export const register = async (req, res) => {
       JWT_SECRET,
       { expiresIn: "7d" }
     );
+
+    return res.status(201).json({
+      message: "User registered successfully",
+      token,
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+      },
+    });
   } catch (error) {
     console.error("Error registering: ", error);
-    res.statu(500).json({ error: "Server error during registration" });
+    res.status(500).json({ error: "Server error during registration" });
   }
 };
 
 export const login = async (req, res) => {
+  console.log("Login reached");
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -54,11 +62,9 @@ export const login = async (req, res) => {
         .json({ error: "Email and password are required." });
     }
 
-    const result = await pool.query("SELECT * FROM users WHERE email = $1", [
-      email,
-    ]);
+    const result = await sql`SELECT * FROM users WHERE email = ${email}`;
 
-    const user = result.rows[0];
+    const user = result[0];
 
     if (!user) {
       return res.status(401).json({ error: "Invalid credentials" });

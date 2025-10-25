@@ -1,13 +1,16 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { LogIn } from "./LogIn";
 import { SignUp } from "./SignUp";
 import bgWall from "../../assets/StarryNightGreen.jpg";
 
 export const Welcome = ({ onAuthSuccess }) => {
   const [showLogIn, setShowLogIn] = useState(true);
+  const nav = useNavigate();
 
   const handleAuthSuccess = (user) => {
     onAuthSuccess(user);
+    nav("/chat");
   };
 
   return (

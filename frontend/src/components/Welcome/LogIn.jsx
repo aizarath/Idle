@@ -19,8 +19,8 @@ export const LogIn = ({ onLogInSuccess }) => {
 
     try {
       const data = await authAPI.login(formData);
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", data.user);
+      localStorage.setItem("token", JSON.stringify(data.token));
+      localStorage.setItem("user", JSON.stringify(data.user));
       onLogInSuccess(data.user);
     } catch (error) {
       console.log(error);

@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { RoomList } from "../Room/RoomList";
 import { ChatWindow } from "../Chat/ChatWindow";
-import NewRoom from "../Room/NewRoom";
+import { NewRoom } from "../Room/NewRoom/NewRoom";
+import { Snail } from "lucide-react";
 
-export const ChatRoom = () => {
+export const ChatRoom = ({ user }) => {
   const [showNewRoomModal, setShowRoomModal] = useState(false);
   const [currentRoom, setCurrentRoom] = useState(null);
+
+  console.log("Chat user:", user);
 
   return (
     <>
@@ -19,6 +22,13 @@ export const ChatRoom = () => {
             currentRoomId={currentRoom?.id}
             onRoomSelect={(room) => setCurrentRoom(room)}
           />
+          <button className="fixed bottom-8 flex items-center item-btn">
+            <Snail className="pfp" />
+            <div className="text-left flex-col gap-0">
+              <p>Marcy the Vampire Queen</p>
+              <span>@{user.username}</span>
+            </div>
+          </button>
         </section>
         <section className="bg-gray-900 flex grow">
           <ChatWindow room={currentRoom} />

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Welcome } from "./components/Welcome/Welcome";
 import { ChatRoom } from "./components/ChatRoom/ChatRoom";
@@ -23,14 +23,22 @@ function App() {
     <div className="flex justify-center items-center w-screen h-screen">
       <BrowserRouter>
         <Routes>
-          {user ? (
-            <Route path="/chat" element={<ChatRoom />} />
-          ) : (
-            <Route
-              path="/"
-              element={<Welcome onAuthSuccess={handleAuthSuccess} />}
-            />
-          )}
+          <Route
+            path="/"
+            element={
+              user ? (
+                <Navigate to="/chat" replace />
+              ) : (
+                <Welcome onAuthSuccess={handleAuthSuccess} />
+              )
+            }
+          />
+          <Route
+            path="/chat"
+            element={
+              user ? <ChatRoom user={user} /> : <Navigate to="/" replace />
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>

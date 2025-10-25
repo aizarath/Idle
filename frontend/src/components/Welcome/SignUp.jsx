@@ -17,12 +17,15 @@ export const SignUp = ({ onSignUpSuccess }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.prevenDefault();
+    e.preventDefault();
+    console.log("Sign UP FORM");
 
     try {
+      console.log("Sign up form send api");
       const data = await authAPI.register(formData);
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", data.user);
+      console.log(`User: ${data.user}`);
+      localStorage.setItem("token", JSON.stringify(data.token));
+      localStorage.setItem("user", JSON.stringify(data.user));
       onSignUpSuccess(data.user);
     } catch (error) {
       console.log(error);

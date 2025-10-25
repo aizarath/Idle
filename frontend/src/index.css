@@ -40,7 +40,7 @@ html {
   }
 
   .item-btn {
-    @apply text-left pl-4 pr-4 pt-2 pb-2 hover:bg-[#798875];
+    @apply text-left pl-4 pr-4 pt-2 pb-2 gap-2 hover:bg-[#798875];
   }
 
   .input-div {

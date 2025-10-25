@@ -36,3 +36,18 @@ export const authAPI = {
       body: JSON.stringify(data),
     }),
 };
+
+// Room API calls
+export const roomsAPI = {
+  getAll: () => fetchAPI("/api/rooms"),
+  getMessages: (roomId) => fetchAPI(`/api/rooms/${roomId}/messages`),
+  create: (data) =>
+    fetchAPI("/api/rooms", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+  join: (roomId) =>
+    fetchAPI(`/api/rooms/${roomId}/join`, {
+      method: "POST",
+    }),
+};

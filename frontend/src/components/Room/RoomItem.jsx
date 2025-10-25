@@ -5,9 +5,7 @@ export const RoomItem = ({ room, isActive, onClick }) => {
   return (
     <button
       onClick={onClick}
-      className={`${
-        isActive === true ? "bg-lime-900" : ""
-      } flex gap-2 item-btn`}
+      className={`${isActive === true ? "bg-lime-900" : ""} flex item-btn`}
     >
       {room.icon ? (
         room.icon
