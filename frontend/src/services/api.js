@@ -40,7 +40,7 @@ export const authAPI = {
 // Room API calls
 export const roomsAPI = {
   getUserRooms: () => fetchAPI("/api/rooms"),
-  getMessages: (roomId) => fetchAPI(`/api/rooms/${roomId}/messages`),
+  getMessages: (roomId) => fetchAPI(`/api/rooms/${roomId}`),
   create: (data) =>
     fetchAPI("/api/rooms", {
       method: "POST",
@@ -50,4 +50,14 @@ export const roomsAPI = {
     fetchAPI(`/api/rooms/${roomId}/join`, {
       method: "POST",
     }),
+};
+
+// Chat API calls
+export const chatsAPI = {
+  sendMessage: (data) => {
+    fetchAPI("/api/chats", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  },
 };

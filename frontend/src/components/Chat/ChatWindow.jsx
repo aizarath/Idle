@@ -2,65 +2,65 @@ import { useEffect, useState } from "react";
 import { ChatHeader } from "./ChatHeader";
 import { MessageList } from "./MessageList";
 import { MessageInput } from "./MessageInput";
+import { roomsAPI } from "../../services/api";
+import socketService from "../../services/socket";
 
-const sampleMessages = [
-  {
-    id: 1,
-    userId: 1,
-    username: "Alice",
-    content: "Hey everyone!",
-    timestamp: new Date(),
-    isOwn: false, // Is this message from current user?
-  },
-  {
-    id: 2,
-    userId: 2,
-    username: "You",
-    content: "Hi Alice! How's it going?",
-    timestamp: new Date(),
-    isOwn: true,
-  },
-  {
-    id: 3,
-    userId: 3,
-    username: "Bonni",
-    content: "Hi Marcy",
-    timestamp: new Date(),
-    isOwn: false,
-  },
-  {
-    id: 4,
-    userId: 4,
-    username: "Marcy",
-    content: "Hey, PBs, how's it going?",
-    timestamp: new Date(),
-    isOwn: false,
-  },
-  {
-    id: 5,
-    userId: 4,
-    username: "Marcy",
-    content: "Wanna watch a movie later?",
-    timestamp: new Date(),
-    isOwn: false,
-  },
-];
+export const ChatWindow = ({ room, user }) => {
+  const [messages, setMessages] = useState([]);
 
-export const ChatWindow = ({ room }) => {
-  const [messages, setMessages] = useState(sampleMessages);
+  // load initial chats and join room
+  useEffect(() => {
+    if (!room) return;
 
-  const handleSendMessage = (content) => {
-    const newMessage = {
-      id: messages.length + 1,
-      userId: 2,
-      username: "You",
-      content: content,
-      timestamp: new Date(),
-      isOwn: true,
+    const loadMessages = async () => {
+      try {
+        // Fetch initial messages from API
+        const data = await roomsAPI.getMessages(room.id);
+        setMessages(data);
+
+        // Join socket room
+        socketService.joinRoom(room.id);
+      } catch (error) {
+        console.log(error);
+      }
     };
 
-    setMessages([...messages, newMessage]);
+    loadMessages();
+
+    // leave room when component unmounts or room changes
+    return () => {
+      if (room) {
+        socketService.leaveRoom(room.id);
+      }
+    };
+  }, [room]);
+
+  useEffect(() => {
+    const handleNewMessage = (message) => {
+      // mark message as own if it's from current user
+      const messageWithOwnership = {
+        ...message,
+        is_own: message.user_id == user.id,
+      };
+
+      setMessages((prev) => [...prev, messageWithOwnership]);
+    };
+
+    socketService.onMessageReceived(handleNewMessage);
+
+    // cleanup listener
+    return () => {
+      socketService.offMessageReceived();
+    };
+  }, [user.id]);
+
+  const handleSendMessage = (content) => {
+    if (!room) return;
+
+    // Send via socket
+    socketService.sendMessage(room.id, content);
   };
+
   return (
     <div className="flex-col w-full p-4">
       <ChatHeader roomName={room?.name} roomIcon={room?.icon} />

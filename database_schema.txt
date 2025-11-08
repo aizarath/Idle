@@ -19,17 +19,18 @@ CREATE TABLE users
         AS IDENTITY,
     name TEXT NOT NULL,
     description TEXT,
+    room_type TEXT NOT NULL,
     master_id INTEGER REFERENCES users(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-        CREATE TABLE messages
-        (
-            id BIGINT PRIMARY KEY GENERATED ALWAYS
-            AS IDENTITY,
-    room_id INTEGER REFERENCES rooms
-            (id) ON
-            DELETE CASCADE,
+CREATE TABLE messages
+(
+    id BIGINT PRIMARY KEY GENERATED ALWAYS
+    AS IDENTITY,
+room_id INTEGER REFERENCES rooms
+    (id) ON
+    DELETE CASCADE,
     user_id INTEGER REFERENCES users(id),
     context TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

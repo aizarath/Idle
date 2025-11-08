@@ -4,7 +4,7 @@ import { ChatWindow } from "../Chat/ChatWindow";
 import { NewRoom } from "../Room/NewRoom/NewRoom";
 import { Snail } from "lucide-react";
 
-export const ChatRoom = ({ user }) => {
+export const ChatRoom = ({ user, onLogOut }) => {
   const [showNewRoomModal, setShowRoomModal] = useState(false);
   const [currentRoom, setCurrentRoom] = useState(null);
 
@@ -31,7 +31,7 @@ export const ChatRoom = ({ user }) => {
           </button>
         </section>
         <section className="bg-gray-900 flex grow">
-          <ChatWindow room={currentRoom} />
+          <ChatWindow room={currentRoom} user={user} />
         </section>
       </div>
       {showNewRoomModal && <NewRoom onClose={() => setShowRoomModal(false)} />}

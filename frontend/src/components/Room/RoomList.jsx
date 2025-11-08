@@ -2,27 +2,6 @@ import { useEffect, useState } from "react";
 import { RoomItem } from "./RoomItem";
 import { roomsAPI } from "../../services/api";
 
-const sampleRooms = [
-  {
-    id: 1,
-    name: "Arts & Crafts",
-    memberCount: 12,
-    unreadCount: 3,
-  },
-  {
-    id: 2,
-    name: "Tech Talk",
-    memberCount: 8,
-    unreadCount: 0,
-  },
-  {
-    id: 3,
-    name: "Physics Class",
-    memberCount: 15,
-    unreadCount: 7,
-  },
-];
-
 export const RoomList = ({ currentRoomId, onRoomSelect }) => {
   const [rooms, setRooms] = useState([]);
 

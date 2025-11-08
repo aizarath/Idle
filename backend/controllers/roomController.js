@@ -52,3 +52,19 @@ export const createRoom = async (req, res) => {
     res.status(500).json({ error: "Faile to create room" });
   }
 };
+
+// @desc get room chats
+// GET /api/rooms/:roomId
+export const getMessages = async (req, res) => {
+  try {
+    const roomId = req.params.roomId;
+    console.log("Room id:", roomId);
+
+    const result =
+      await sql`SELECT m.id, m.room_id, m.user_id, u.username, m.content, m.created_at FROM messages m JOIN users u ON m.user_id = u.id WHERE room_id = ${roomId}`;
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+  }
+};

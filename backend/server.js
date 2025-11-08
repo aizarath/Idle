@@ -1,6 +1,6 @@
 import express from "express";
 import { createServer } from "http";
-import { Server } from "socket.io";
+import { Server as SocketIO } from "socket.io";
 import cors from "cors";
 import "dotenv/config";
 
@@ -13,9 +13,14 @@ import rooms from "./routes/rooms.js";
 const app = express();
 const server = createServer(app);
 
-const PORT = process.env.PORT || 5000;
+const io = new SocketIO(server, {
+  cors: {
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  },
+});
 
-console.log(process.env.CLIENT_URL);
+const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
@@ -35,6 +40,8 @@ app.use("/api/auth", auth);
 // ROOM ROUTES
 
 app.use("/api/rooms", authenticateToken, rooms);
+
+// CHAT ROUTES
 
 server.listen(PORT, () => {
   console.log(`IDLE Server running on port ${PORT}`);
