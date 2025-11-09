@@ -4,6 +4,7 @@ import { roomsAPI } from "../../services/api";
 
 export const RoomList = ({ currentRoomId, onRoomSelect }) => {
   const [rooms, setRooms] = useState([]);
+  console.log("Current:", currentRoomId);
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -17,6 +18,12 @@ export const RoomList = ({ currentRoomId, onRoomSelect }) => {
 
     fetchRooms();
   }, []);
+
+  useEffect(() => {
+    if (rooms.length > 0 && !currentRoomId) {
+      onRoomSelect(rooms[0]);
+    }
+  }, [rooms]);
 
   return (
     <div className="flex-col">

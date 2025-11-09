@@ -14,7 +14,7 @@ html {
   }
 
   div {
-    @apply flex gap-3;
+    @apply flex;
   }
 
   form {
@@ -35,12 +35,16 @@ html {
     @apply w-8 h-8;
   }
 
+  .small-icon {
+    @apply w-5 h-5;
+  }
+
   .cherry-btn {
     @apply font-cherry text-xl rounded-[8px] tracking-wide p-1.5 bg-[#8eb69a] hover:bg-lime-700 text-white;
   }
 
   .item-btn {
-    @apply text-left pl-4 pr-4 pt-2 pb-2 gap-2 hover:bg-[#798875];
+    @apply flex items-center text-left pl-4 pr-4 pt-2 pb-2 gap-2 hover:bg-[#798875];
   }
 
   .input-div {

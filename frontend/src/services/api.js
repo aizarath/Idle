@@ -19,7 +19,6 @@ const fetchAPI = async (endpoint, options = {}) => {
     const error = await response.json();
     throw new Error(error.error || "Request failed");
   }
-
   return response.json();
 };
 
@@ -40,7 +39,7 @@ export const authAPI = {
 // Room API calls
 export const roomsAPI = {
   getUserRooms: () => fetchAPI("/api/rooms"),
-  getMessages: (roomId) => fetchAPI(`/api/rooms/${roomId}`),
+  getMessages: (roomId) => fetchAPI(`/api/rooms/${roomId}/chat`),
   create: (data) =>
     fetchAPI("/api/rooms", {
       method: "POST",
@@ -50,6 +49,7 @@ export const roomsAPI = {
     fetchAPI(`/api/rooms/${roomId}/join`, {
       method: "POST",
     }),
+  getPublicRooms: () => fetchAPI("/api/rooms/public"),
 };
 
 // Chat API calls

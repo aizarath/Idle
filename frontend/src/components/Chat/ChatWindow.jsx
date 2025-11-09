@@ -7,10 +7,12 @@ import socketService from "../../services/socket";
 
 export const ChatWindow = ({ room, user }) => {
   const [messages, setMessages] = useState([]);
+  console.log("@@@ ROOM:", room);
 
   // load initial chats and join room
   useEffect(() => {
-    if (!room) return;
+    if (!room || room === null) return;
+    console.log("NOT RETURNING");
 
     const loadMessages = async () => {
       try {

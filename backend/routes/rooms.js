@@ -5,10 +5,12 @@ import {
   createRoom,
   getUserRooms,
   getMessages,
+  getPublicRooms,
 } from "../controllers/roomController.js";
 
 router.get("/", getUserRooms);
 router.post("/", createRoom);
-router.get("/:roomId", getMessages);
+router.get("/:roomId/chat", getMessages);
+router.get("/public", getPublicRooms);
 
 export default router;

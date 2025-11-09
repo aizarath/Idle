@@ -5,6 +5,7 @@ export const CreateRoom = () => {
   const [formData, setFormData] = useState({
     roomName: "",
     description: "",
+    roomType: "private",
   });
 
   const handleChange = (e) => {
@@ -41,6 +42,31 @@ export const CreateRoom = () => {
         onChange={handleChange}
         placeholder="Give your room a description"
       ></textarea>
+      <div>
+        <div>
+          <input
+            id="public"
+            type="radio"
+            name="roomType"
+            value="public"
+            checked={formData.roomType === "public"}
+            onChange={handleChange}
+          />
+          <label htmlFor="public">Public</label>
+        </div>
+        <div>
+          <input
+            id="private"
+            type="radio"
+            name="roomType"
+            value="private"
+            checked={formData.roomType === "private"}
+            onChange={handleChange}
+          />
+          <label htmlFor="private">Private</label>
+        </div>
+      </div>
+
       <button type="submit" className="cherry-btn">
         Create Room
       </button>
